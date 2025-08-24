@@ -22,6 +22,8 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "seed.js", "src/lib/models/user.js", "src/lib/models/cloth.js"],
+  "exclude": ["node_modules"],
+  "typeRoots": ["./node_modules/@types", "./src/types"]
+
 }
