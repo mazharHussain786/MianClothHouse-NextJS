@@ -96,7 +96,12 @@ const MobileNavbar = ({ handleSession }: { handleSession: () => void }) => {
             </Link>
 
             <button
-              onClick={handleSession}
+              onClick={()=>
+              {
+                handleSession()
+                handleClose()
+              }
+              }
               className="block w-full text-center py-3 border-2 bg-red-950 text-white hover:bg-red-800 transition rounded"
             >
               My Account

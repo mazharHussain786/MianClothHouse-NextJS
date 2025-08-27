@@ -13,13 +13,13 @@ const ProtectedRoute = ({
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  const tokenRole = session?.user?.role;
+  const userRole=session?.user.role
 
   useEffect(() => {
     if (status === "loading") return; // Wait until session is fetched
     if (!session) {
       router.replace("/login");
-    } else if (tokenRole?.role !== role) {
+    } else if (userRole !== role) {
       router.replace("/");
     }
   }, [status, session]);
@@ -28,7 +28,7 @@ const ProtectedRoute = ({
     return <p className="text-center mt-10">Checking authentication...</p>;
   }
 
-  return <>{session && tokenRole?.role === "role" && children}</>;
+  return <>{session && userRole === role && children}</>;
 };
 
 export default ProtectedRoute;

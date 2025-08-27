@@ -7,14 +7,9 @@ const Footer = () => {
   return (
     <footer className="bg-red-950 text-white py-10 mt-10">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-        
         {/* Logo & About */}
         <div>
-          <img
-            src="/Logo.PNG"
-            alt="Mian Cloth House"
-            className="w-32 mb-4"
-          />
+          <img src="/Logo.PNG" alt="Mian Cloth House" className="w-32 mb-4" />
           <p className="text-gray-300 text-sm">
             Your trusted clothing store for premium quality fabrics and designs.
           </p>
@@ -24,10 +19,26 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
           <ul className="space-y-2">
-            <li><Link href="/" className="hover:text-gray-300">Home</Link></li>
-            <li><Link href="#categories" className="hover:text-gray-300">Categories</Link></li>
-            <li><Link href="/about" className="hover:text-gray-300">About Us</Link></li>
-            <li><Link href="/contact" className="hover:text-gray-300">Contact Us</Link></li>
+            <li>
+              <Link href="/" className="hover:text-gray-300">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link href="#categories" className="hover:text-gray-300">
+                Categories
+              </Link>
+            </li>
+            <li>
+              <Link href="/about" className="hover:text-gray-300">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="hover:text-gray-300">
+                Contact Us
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -38,7 +49,7 @@ const Footer = () => {
             <Phone size={18} /> +92 302 7726309
           </p>
           <p className="flex items-center gap-2">
-            <Mail size={18} /> support@mianclothhouse.com
+            <Mail size={18} /> mianclothhouse@gmail.com
           </p>
         </div>
 
@@ -46,10 +57,20 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-3">Follow Us</h3>
           <div className="flex gap-4">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-gray-300">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-gray-300"
+            >
               <Facebook size={24} />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-gray-300">
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-gray-300"
+            >
               <Instagram size={24} />
             </a>
           </div>

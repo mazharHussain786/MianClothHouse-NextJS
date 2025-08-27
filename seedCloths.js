@@ -1,6 +1,7 @@
 import {clothModel} from "./src/lib/models/cloth.js"
 import mongoose from "mongoose";
-const MONGO_URI = 'mongodb://127.0.0.1:27017/cloth'; 
+const MONGO_URI = process.env.MONGODB_URI || "MONGODB_URI=mongodb://mianmazhar302:X3V1tUsre2WrlsEt@ac-86zllqy-shard-00-00.dvk7mwk.mongodb.net:27017,ac-86zllqy-shard-00-01.dvk7mwk.mongodb.net:27017,ac-86zllqy-shard-00-02.dvk7mwk.mongodb.net:27017/?replicaSet=atlas-7hkig1-shard-0&ssl=true&authSource=admin" 
+
 
   const productList = [
   {

@@ -61,7 +61,7 @@ const Navbar = () => {
             {/* User Icon */}
             < button
               onClick={hanldeSession}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-400 hover:bg-gray-500 transition"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-400 hover:bg-gray-500 transition cursor-pointer"
             >
               <User size={20} className="text-white" />
             </button>
