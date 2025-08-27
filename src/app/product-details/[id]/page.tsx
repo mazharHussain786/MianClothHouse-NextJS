@@ -1,4 +1,5 @@
 import ProductDetailClient from "@/app/components/productsDetailClient";
+import { on } from "events";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -6,6 +7,7 @@ type Props = {
 
 export default async function ProductDetailPage({ params }: Props) {
   const { id } = await params;
+
 
 
 
@@ -17,7 +19,7 @@ export default async function ProductDetailPage({ params }: Props) {
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch product");
+     console.log("Failed to fetch product details",res);
   }
 
   const product = await res.json();
