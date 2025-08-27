@@ -12,7 +12,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
 
   const res = await fetch(
-    `/api/cloths?id=${id}`,
+    `https://mian-cloth-house-next-js.vercel.app/api/cloths?id=${id}`,
     {
       cache: "force-cache", 
     }
