@@ -12,7 +12,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/cloths?id=${id}`,
+    `/api/cloths?id=${id}`,
     {
       cache: "force-cache", 
     }

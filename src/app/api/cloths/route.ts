@@ -27,6 +27,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(cloths);
   } catch (error) {
+    console.log(error)
     return NextResponse.json(
       { message: "Error fetching cloths" },
       { status: 500 }
