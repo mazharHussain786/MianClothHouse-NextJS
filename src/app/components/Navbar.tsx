@@ -1,24 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { User } from "lucide-react";
+import { LogOutIcon, User } from "lucide-react";
 import MobileNavbar from "./MobileNavbar";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { signOut } from "next-auth/react";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
   const hanldeSession = () => {
-    console.log(session)
     if (session) {
       router.push("/");
       return;
     }
     router.push("/login");
   };
+  const handleLogout=()=>{signOut({callbackUrl:"/"}); toast.success("Logout Successfully")}
   return (
     <>
       <div className="hidden md:block">
@@ -65,12 +66,20 @@ const Navbar = () => {
             >
               <User size={20} className="text-white" />
             </button>
+              {session &&
+                < button
+              onClick={handleLogout}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-400 hover:bg-gray-500 transition cursor-pointer"
+            >
+              <LogOutIcon size={20} className="text-white" />
+            </button>
+}
           </div>
         </div>
       </div>
 
       <div className="md:hidden">
-        <MobileNavbar handleSession={hanldeSession} />
+        <MobileNavbar handleSession={hanldeSession} handleLogout={handleLogout} session={session}/>
       </div>
     </>
   );

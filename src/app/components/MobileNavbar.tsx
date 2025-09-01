@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { LogOutIcon, Menu } from "lucide-react";
 import Link from "next/link";
 import {
   Accordion,
@@ -10,9 +10,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Session } from "next-auth";
 
+const MobileNavbar = (
+  { handleSession ,handleLogout,session}: { handleSession: () => void ,  handleLogout: () => void,session:Session | null}
 
-const MobileNavbar = ({ handleSession }: { handleSession: () => void }) => {
+) => {
   const [isOpen, setOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
@@ -96,16 +99,21 @@ const MobileNavbar = ({ handleSession }: { handleSession: () => void }) => {
             </Link>
 
             <button
-              onClick={()=>
-              {
-                handleSession()
-                handleClose()
-              }
-              }
-              className="block w-full text-center py-3 border-2 bg-red-950 text-white hover:bg-red-800 transition rounded"
+              onClick={() => {
+                handleSession();
+                handleClose();
+              }}
+              className="block w-full text-center py-3 border-2 bg-red-950 text-white hover:bg-red-800 transition rounded cursor-pointer"
             >
               My Account
             </button>
+                {session &&   <button
+              onClick={handleLogout}
+              className="w-full h-10 flex items-center justify-center rounded-full text-white bg-red-950 hover:bg-red-800 transition cursor-pointer"
+            >
+              <LogOutIcon size={20} className="text-white" /> Logout
+            </button>}
+          
           </nav>
         </SheetContent>
       </Sheet>
