@@ -1,12 +1,12 @@
 import dbConnect from "@/lib/mongodb";
-import ProductsClient from "./ProductClient";
+import ProductsClient, { productSchema } from "./ProductClient";
 import { clothModel } from "@/lib/models/cloth";
 
 export const revalidate = 86400 * 15;
 
 export default async function ProductsPage() {
  await dbConnect();
-  const products = await clothModel.find({ featured: true }).lean();
+  const products = await clothModel.find({ featured: true }).lean() as unknown as productSchema[];
 
   
 
@@ -15,7 +15,7 @@ export default async function ProductsPage() {
       <h2 className="text-3xl font-bold mb-6 text-center">
         Our Latest Collection
       </h2>
-      <ProductsClient key={"featured-products"} products={products} />
+      <ProductsClient key={"featured-products"} initialProducts={products} />
     </section>
   );
 }

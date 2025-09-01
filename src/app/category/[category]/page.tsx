@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ProductsClient from "@/app/components/ProductClient";
+import ProductsClient, { productSchema } from "@/app/components/ProductClient";
 import dbConnect from "@/lib/mongodb";
 import { clothModel } from "@/lib/models/cloth";
 
@@ -19,7 +19,7 @@ export default async function CategoryPage({ params }: Props) {
   const { category } = await params;
 
   await dbConnect();
-  const products = await clothModel.find({ category }).select("-__v -updatedAt").lean()
+  const products = await clothModel.find({ category }).select("-__v -updatedAt").lean() as unknown as productSchema[]
 
   return (
     <section id="products" className="py-10 px-6">
@@ -47,7 +47,8 @@ export default async function CategoryPage({ params }: Props) {
         {category.toUpperCase()} Collection
       </h2>
 
-      <ProductsClient key={`products-${category}`} products={products} />
+
+      <ProductsClient key={`products-${category}`} initialProducts={products} />
     </section>
   );
 }
