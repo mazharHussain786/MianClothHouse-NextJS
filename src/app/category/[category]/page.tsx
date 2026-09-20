@@ -6,6 +6,7 @@ import { ensureProductSlugs } from "@/lib/slug";
 import { toProductCard } from "@/lib/productCard";
 
 export const revalidate = 172800;
+export const dynamic = "force-static";
 
 type Props = {
   params: Promise<{ category: string }>;

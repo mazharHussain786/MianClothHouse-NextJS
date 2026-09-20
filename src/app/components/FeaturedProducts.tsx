@@ -2,7 +2,6 @@ import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import dbConnect from "@/lib/mongodb";
 import { clothModel } from "@/lib/models/cloth";
-import { ensureProductSlugs } from "@/lib/slug";
 import { toProductCard } from "@/lib/productCard";
 import ProductGrid from "./ProductGrid";
 import SectionHeading from "./SectionHeading";
@@ -11,7 +10,6 @@ const getFeaturedProducts = unstable_cache(
   async () => {
     await dbConnect();
     const docs = await clothModel.find({ featured: true }).lean();
-    await ensureProductSlugs(docs);
     return docs.map(toProductCard);
   },
   ["featured-products"],
