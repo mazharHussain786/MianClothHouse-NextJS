@@ -60,14 +60,14 @@ export default function OrdersHub({
       ) : (
         <div className="mt-8 grid gap-8 md:grid-cols-2">
           <div className="bg-card p-6 shadow-sm">
-            <h2 className="font-display text-2xl text-primary">Login karein</h2>
+            <h2 className="font-display text-2xl text-primary">Login</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Apne orders dekhne ke liye login karein. Account nahi hai to login page se
-              register kar sakte hain.
+              Log in to see orders placed with your account. You can also create an
+              account from the login page.
             </p>
             <Link
               href="/login?callbackUrl=/orders"
-              className="mt-6 inline-block bg-primary px-6 py-3 text-sm uppercase tracking-[0.14em] text-primary-foreground"
+              className="mt-6 inline-block cursor-pointer bg-primary px-6 py-3 text-sm uppercase tracking-[0.14em] text-primary-foreground"
             >
               Login
             </Link>
@@ -76,7 +76,7 @@ export default function OrdersHub({
           <div className="bg-card p-6 shadow-sm">
             <h2 className="font-display text-2xl text-primary">Guest tracking</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Bina login order ID paste karke apna order trace kar sakte hain.
+              Track an order with your order ID — no login needed.
             </p>
             <form onSubmit={trackOrder} className="mt-5 space-y-3">
               <input
@@ -89,7 +89,7 @@ export default function OrdersHub({
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full border border-primary py-3 text-sm uppercase tracking-[0.14em] text-primary disabled:opacity-60"
+                className="w-full cursor-pointer border border-primary py-3 text-sm uppercase tracking-[0.14em] text-primary disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loading ? "Checking..." : "Track order"}
               </button>

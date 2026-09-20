@@ -140,7 +140,7 @@ const LoginComponent = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary py-3 text-sm uppercase tracking-[0.16em] text-primary-foreground disabled:opacity-60"
+            className="w-full cursor-pointer bg-primary py-3 text-sm uppercase tracking-[0.16em] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading
               ? mode === "login"
@@ -154,16 +154,16 @@ const LoginComponent = () => {
 
         {mode === "login" ? (
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            Login nahi hai?{" "}
+            Don't have an account?{" "}
             <button
               type="button"
               onClick={() => {
                 setMode("register");
                 setErr("");
               }}
-              className="text-primary underline"
+              className="cursor-pointer text-primary underline"
             >
-              Register kar lein
+              Register
             </button>
           </p>
         ) : (
@@ -175,7 +175,7 @@ const LoginComponent = () => {
                 setMode("login");
                 setErr("");
               }}
-              className="text-primary underline"
+              className="cursor-pointer text-primary underline"
             >
               Login
             </button>
