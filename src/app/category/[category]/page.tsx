@@ -1,9 +1,11 @@
 import Link from "next/link";
-import ProductsClient, { productSchema } from "@/app/components/ProductClient";
+import ProductGrid from "@/app/components/ProductGrid";
 import dbConnect from "@/lib/mongodb";
 import { clothModel } from "@/lib/models/cloth";
+import { ensureProductSlugs } from "@/lib/slug";
+import { toProductCard } from "@/lib/productCard";
 
-export const revalidate = 86400;
+export const revalidate = 172800;
 
 type Props = {
   params: Promise<{ category: string }>;
@@ -19,36 +21,39 @@ export default async function CategoryPage({ params }: Props) {
   const { category } = await params;
 
   await dbConnect();
-  const products = await clothModel.find({ category }).select("-__v -updatedAt").lean() as unknown as productSchema[]
+  const docs = await clothModel.find({ category }).select("-__v -updatedAt").lean();
+  await ensureProductSlugs(docs);
+  const products = docs.map(toProductCard);
 
   return (
-    <section id="products" className="py-10 px-6">
-      {/* ✅ Breadcrumb Navigation */}
-      <nav className="text-gray-600 text-sm mb-4">
-        <ol className="flex items-center space-x-2">
+    <section className="mx-auto max-w-7xl px-4 py-14 md:px-8">
+      <nav className="mb-8 text-sm text-muted-foreground">
+        <ol className="flex items-center gap-2">
           <li>
-            <Link href="/" className="hover:underline text-blue-600">
+            <Link href="/" className="hover:text-primary">
               Home
             </Link>
           </li>
           <li>/</li>
           <li>
-            <Link href="#" className="hover:underline text-blue-600">
-              Categories
+            <Link href="/#categories" className="hover:text-primary">
+              Collections
             </Link>
           </li>
           <li>/</li>
-          <li className="font-semibold text-gray-800 capitalize">{category}</li>
+          <li className="capitalize text-primary">{category}</li>
         </ol>
       </nav>
 
-      {/* ✅ Page Title */}
-      <h2 className="text-3xl font-bold mb-6 text-center">
-        {category.toUpperCase()} Collection
-      </h2>
+      <div className="mb-12 text-center">
+        <p className="text-xs uppercase tracking-[0.28em] text-gold">Collection</p>
+        <h2 className="font-display mt-3 text-3xl capitalize text-primary sm:text-4xl md:text-5xl">
+          {category} Collection
+        </h2>
+        <div className="gold-rule mx-auto mt-4" />
+      </div>
 
-
-      <ProductsClient key={`products-${category}`} initialProducts={products} />
+      <ProductGrid products={products} />
     </section>
   );
 }

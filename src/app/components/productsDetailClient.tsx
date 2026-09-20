@@ -3,6 +3,8 @@
 import React from "react";
 import CaurosalComponent from "@/app/components/CaurosalComponent";
 import WhatsAppButton from "./WhatsAppButton";
+import OrderForm from "./OrderForm";
+import { seasonLabel } from "@/lib/seasons";
 
 type ProductProps = {
   product: {
@@ -10,80 +12,77 @@ type ProductProps = {
     title: string;
     category: string;
     price: number;
-    discountPrice: number;
-    description: string;
+    discountPrice?: number;
+    description?: string;
     colors: string[];
     images?: string[];
+    season?: string;
   };
 };
 
 const ProductDetailClient = ({ product }: ProductProps) => {
+  const salePrice = product?.discountPrice || product?.price;
+  const originalPrice = product?.discountPrice ? product.price : undefined;
+
   return (
-    <div className="md:flex pb-24 justify-center gap-6 mt-6">
-      {/* Left: Carousel */}
-      <div className="w-full md:w-4/6">
+    <div className="mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-16">
+      <div className="grid gap-8 md:grid-cols-[1.15fr_0.85fr] md:gap-10">
         <CaurosalComponent images={product?.images || []} />
-      </div>
 
-      {/* Right: Product Details */}
-  <div className="bg-white w-full md:w-2/6 p-6 rounded-lg shadow-md sticky top-6 self-start">
+        <div className="self-start bg-card p-5 shadow-sm sm:p-7 md:sticky md:top-28">
+          <p className="text-xs uppercase tracking-[0.2em] text-gold capitalize">
+            {product?.category} · {seasonLabel(product?.season)}
+          </p>
+          <h1 className="font-display mt-2 text-3xl text-primary sm:text-4xl">{product?.title}</h1>
 
-        <h1 className="text-2xl font-bold mb-2">{product?.title}</h1>
-        <p className="text-gray-500 mb-3 capitalize">{product?.category}</p>
-
-        <div className="mb-4">
-          <span className="text-3xl font-bold text-red-600">
-            Rs. {product?.discountPrice || product?.price}
-          </span>
-          <span className="text-gray-400 line-through ml-2">
-            Rs. {product?.discountPrice ? product.price : product?.price + 500}
-          </span>
-        </div>
-
-        <p className="text-gray-700 mb-4">{product.description}</p>
-
-        {product?.colors?.length > 0 && (
-          <div className="mb-4">
-            <h3 className="font-semibold mb-2">Available Colors:</h3>
-            <div className="flex gap-3">
-              {product?.colors?.map((color) => (
-                <span
-                  key={color}
-                  className="w-6 h-6 rounded-full border cursor-pointer"
-                  style={{ backgroundColor: color.toLowerCase() }}
-                ></span>
-              ))}
-            </div>
+          <div className="mt-5 flex items-end gap-3">
+            <span className="font-display text-3xl text-primary">Rs. {salePrice}</span>
+            {originalPrice && (
+              <span className="text-muted-foreground line-through">
+                Rs. {originalPrice}
+              </span>
+            )}
           </div>
-        )}
 
-        <div className="mt-6 border-t pt-4 text-sm text-gray-600">
-          <ul className="space-y-1">
-            <li>✅ 100% Original & Premium Quality</li>
-            <li>✅ Cash on Delivery Available</li>
-            <li>✅ Exclusive Limited Stock – Grab Now!</li>
-            <li>✅ Premium Quality Fabric – Long Lasting</li>
-            <li>✅ 24/7 Customer Support</li>
+          <p className="mt-5 leading-relaxed text-foreground/80">
+            {product.description}
+          </p>
+
+          {product?.colors?.length > 0 && (
+            <div className="mt-6">
+              <h3 className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                Available Colors
+              </h3>
+              <div className="mt-3 flex gap-3">
+                {product.colors.map((color) => (
+                  <span
+                    key={color}
+                    title={color}
+                    className="h-7 w-7 rounded-full border border-border"
+                    style={{ backgroundColor: color.toLowerCase() }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <ul className="mt-8 space-y-2 border-t border-border pt-5 text-sm text-muted-foreground">
+            <li>Original premium quality fabric</li>
+            <li>Cash on delivery available</li>
+            <li>Order on the website or WhatsApp — no account required</li>
+            <li>Support throughout the day</li>
           </ul>
-        </div>
 
-        {/* <div className="flex gap-4 mt-9 bg-red-700 text-white px-5 py-3 rounded-lg hover:bg-red-800 font-semibold w-full justify-center"> */}
-          <WhatsAppButton title={product?.title} />
-          {/* <a
-            href={`https://wa.me/923027726309?text=${encodeURIComponent(
-              `Asslam-o-Alaikum I am interested in ${
-                product.title
-              }. Is it available?\n\nProduct Link: ${
-                typeof window !== "undefined" ? window.location.href : ""
-              }`
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block"
-          >
-            Order on WhatsApp
-          </a> */}
-        {/* </div> */}
+          <div className="mt-6 space-y-3">
+            <OrderForm
+              productId={product._id}
+              productTitle={product.title}
+              price={salePrice}
+              colors={product.colors || []}
+            />
+            <WhatsAppButton title={product?.title} />
+          </div>
+        </div>
       </div>
     </div>
   );

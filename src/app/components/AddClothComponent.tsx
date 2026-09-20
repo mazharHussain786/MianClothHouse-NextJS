@@ -1,12 +1,17 @@
 "use client";
 import React, { useState } from "react";
+import { SEASONS } from "@/lib/seasons";
+
+const inputClass =
+  "w-full border border-border bg-background px-4 py-3 outline-none focus:border-primary";
 
 const AddClothComponent = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState<number | "">("");
   const [discountPrice, setDiscountPrice] = useState<number | "">("");
-  const [category, setCategory] = useState("men");
+  const [category, setCategory] = useState("women");
+  const [season, setSeason] = useState("all");
   const [featured, setFeatured] = useState(false);
   const [colors, setColors] = useState<string[]>([]);
   const [colorInput, setColorInput] = useState("");
@@ -28,8 +33,7 @@ const AddClothComponent = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      setImages(filesArray);
+      setImages(Array.from(e.target.files));
     }
   };
 
@@ -49,202 +53,204 @@ const AddClothComponent = () => {
 
     setLoading(true);
     try {
-      // Create FormData instead of JSON
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description);
       formData.append("price", price.toString());
       if (discountPrice) formData.append("discountPrice", discountPrice.toString());
       formData.append("category", category);
+      formData.append("season", season);
       formData.append("featured", featured.toString());
       formData.append("colors", colors.join(","));
-      
-      // Append each image file
       images.forEach((file) => {
         formData.append("images", file);
       });
 
       const res = await fetch("/api/cloths", {
         method: "POST",
-        // Don't set Content-Type header - let browser set it automatically with boundary
         body: formData,
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to add cloth");
 
-      setSuccess("Cloth added successfully!");
-      // Reset form
+      setSuccess("Cloth added successfully.");
       setTitle("");
       setDescription("");
       setPrice("");
       setDiscountPrice("");
-      setCategory("men");
+      setCategory("women");
+      setSeason("all");
       setFeatured(false);
       setColors([]);
       setImages([]);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto  p-6 rounded shadow-2xl mt-3">
-      <h2 className="text-xl font-bold mb-4">Add New Cloth</h2>
+    <div className="mx-auto max-w-2xl px-4 py-12">
+      <div className="bg-card p-5 shadow-sm sm:p-8">
+        <p className="text-xs uppercase tracking-[0.24em] text-gold">Admin</p>
+        <h2 className="font-display mt-2 text-3xl text-primary sm:text-4xl">Add New Cloth</h2>
+        <div className="gold-rule mt-4" />
 
-      {error && <p className="text-red-500">{error}</p>}
-      {success && <p className="text-green-500">{success}</p>}
+        {error && <p className="mt-4 text-sm text-destructive">{error}</p>}
+        {success && <p className="mt-4 text-sm text-green-700">{success}</p>}
 
-      <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
-        {/* Title */}
-        <div>
-          <label className="block font-medium">Title *</label>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border p-2 rounded"
-            required
-          />
-        </div>
-
-        {/* Description */}
-        <div>
-          <label className="block font-medium">Description</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full border p-2 rounded"
-          />
-        </div>
-
-        {/* Price */}
-        <div>
-          <label className="block font-medium">Price *</label>
-          <input
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
-            className="w-full border p-2 rounded"
-            required
-          />
-        </div>
-
-        {/* Discount Price */}
-        <div>
-          <label className="block font-medium">Discount Price</label>
-          <input
-            type="number"
-            value={discountPrice}
-            onChange={(e) => setDiscountPrice(Number(e.target.value))}
-            className="w-full border p-2 rounded"
-          />
-        </div>
-
-        {/* Category */}
-        <div>
-          <label className="block font-medium">Category *</label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full border p-2 rounded"
-          >
-            <option value="men">Men</option>
-            <option value="women">Women</option>
-          </select>
-        </div>
-
-        {/* Featured */}
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={featured}
-            onChange={(e) => setFeatured(e.target.checked)}
-          />
-          <label>Featured</label>
-        </div>
-
-        {/* Colors */}
-        <div>
-          <label className="block font-medium">Colors</label>
-          <div className="flex gap-2">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5" encType="multipart/form-data">
+          <div>
+            <label className="mb-1 block text-sm">Title *</label>
             <input
-              value={colorInput}
-              onChange={(e) => setColorInput(e.target.value)}
-              className="border p-2 rounded flex-1"
-              placeholder="Add color"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className={inputClass}
+              required
             />
-            <button
-              type="button"
-              onClick={addColor}
-              className="bg-blue-500 text-white px-3 rounded"
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm">Description</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className={inputClass}
+              rows={4}
+            />
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-1 block text-sm">Price *</label>
+              <input
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(Number(e.target.value))}
+                className={inputClass}
+                required
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm">Discount Price</label>
+              <input
+                type="number"
+                value={discountPrice}
+                onChange={(e) => setDiscountPrice(Number(e.target.value))}
+                className={inputClass}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm">Category *</label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className={inputClass}
             >
-              Add
-            </button>
+              <option value="men">Men</option>
+              <option value="women">Women</option>
+            </select>
           </div>
-          <div className="flex gap-2 mt-2 flex-wrap">
-            {colors.map((c) => (
-              <span
-                key={c}
-                className="bg-gray-200 px-3 py-1 rounded flex items-center gap-1"
-              >
-                {c}
-                <button
-                  type="button"
-                  onClick={() => removeColor(c)}
-                  className="text-red-500 font-bold"
-                >
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
 
-        {/* Images */}
-        <div>
-          <label className="block font-medium">Images *</label>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={handleImageChange}
-            className="border p-2 rounded w-full"
-            required
-          />
-          <div className="flex gap-2 mt-2 flex-wrap">
-            {images.map((file, index) => (
-              <div
-                key={index}
-                className="relative w-20 h-20 border rounded overflow-hidden"
-              >
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt={file.name}
-                  className="w-full h-full object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeImage(index)}
-                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
+          <div>
+            <label className="mb-1 block text-sm">Season *</label>
+            <select
+              value={season}
+              onChange={(e) => setSeason(e.target.value)}
+              className={inputClass}
+            >
+              {SEASONS.map((item) => (
+                <option key={item.value} value={item.value}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
           </div>
-        </div>
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 disabled:bg-gray-400"
-        >
-          {loading ? "Adding..." : "Add Cloth"}
-        </button>
-      </form>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={featured}
+              onChange={(e) => setFeatured(e.target.checked)}
+            />
+            Featured on homepage
+          </label>
+
+          <div>
+            <label className="mb-1 block text-sm">Colors</label>
+            <div className="flex gap-2">
+              <input
+                value={colorInput}
+                onChange={(e) => setColorInput(e.target.value)}
+                className={inputClass}
+                placeholder="Add color"
+              />
+              <button
+                type="button"
+                onClick={addColor}
+                className="border border-primary px-4 text-sm text-primary"
+              >
+                Add
+              </button>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {colors.map((c) => (
+                <span
+                  key={c}
+                  className="flex items-center gap-1 bg-secondary px-3 py-1 text-sm"
+                >
+                  {c}
+                  <button type="button" onClick={() => removeColor(c)} className="text-destructive">
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm">Images *</label>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handleImageChange}
+              className={inputClass}
+              required
+            />
+            <div className="mt-3 flex flex-wrap gap-2">
+              {images.map((file, index) => (
+                <div key={index} className="relative h-20 w-20 overflow-hidden border border-border">
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt={file.name}
+                    className="h-full w-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(index)}
+                    className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-xs text-white"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-primary py-3 text-sm uppercase tracking-[0.16em] text-primary-foreground disabled:opacity-60"
+          >
+            {loading ? "Adding..." : "Add Cloth"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

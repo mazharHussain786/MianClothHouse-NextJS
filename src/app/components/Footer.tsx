@@ -1,84 +1,95 @@
-"use client";
-
 import Link from "next/link";
-import { Facebook, Instagram, Phone, Mail } from "lucide-react";
+import { Facebook, Instagram, Phone, Mail, MapPin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-red-950 text-white py-10 mt-10">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Logo & About */}
+    <footer className="mt-0 bg-primary text-primary-foreground">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-12 sm:px-6 md:grid-cols-4 md:px-8 md:py-16">
         <div>
-          <img src="/Logo.PNG" alt="Mian Cloth House" className="w-32 mb-4" />
-          <p className="text-gray-300 text-sm">
-            Your trusted clothing store for premium quality fabrics and designs.
+          <p className="font-display text-3xl">Mian Cloth House</p>
+          <div className="gold-rule mt-4" />
+          <p className="mt-4 text-sm leading-relaxed text-primary-foreground/75">
+            A trusted cloth house for premium fabrics, festive wear, and
+            everyday collections in Mailsi.
           </p>
         </div>
 
-        {/* Quick Links */}
         <div>
-          <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
-          <ul className="space-y-2">
+          <h3 className="text-xs uppercase tracking-[0.2em] text-gold">
+            Quick Links
+          </h3>
+          <ul className="mt-4 space-y-2 text-sm text-primary-foreground/80">
             <li>
-              <Link href="/" className="hover:text-gray-300">
+              <Link href="/" className="hover:text-white">
                 Home
               </Link>
             </li>
             <li>
-              <Link href="#categories" className="hover:text-gray-300">
-                Categories
+              <Link href="/#categories" className="hover:text-white">
+                Collections
               </Link>
             </li>
             <li>
-              <Link href="/about" className="hover:text-gray-300">
+              <Link href="/about" className="hover:text-white">
                 About Us
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:text-gray-300">
-                Contact Us
+              <Link href="/contact" className="hover:text-white">
+                Contact
               </Link>
             </li>
           </ul>
         </div>
 
-        {/* Contact Info */}
         <div>
-          <h3 className="text-lg font-semibold mb-3">Contact</h3>
-          <p className="flex items-center gap-2">
-            <Phone size={18} /> +92 302 7726309
-          </p>
-          <p className="flex items-center gap-2">
-            <Mail size={18} /> mianclothhouse@gmail.com
-          </p>
+          <h3 className="text-xs uppercase tracking-[0.2em] text-gold">
+            Contact
+          </h3>
+          <div className="mt-4 space-y-3 text-sm text-primary-foreground/80">
+            <p className="flex items-start gap-2">
+              <Phone size={16} className="mt-0.5 shrink-0" />
+              +92 302 7726309
+            </p>
+            <p className="flex items-start gap-2">
+              <Mail size={16} className="mt-0.5 shrink-0" />
+              mianclothhouse@gmail.com
+            </p>
+            <p className="flex items-start gap-2">
+              <MapPin size={16} className="mt-0.5 shrink-0" />
+              Kot Muzaffar, Tehsil Mailsi
+            </p>
+          </div>
         </div>
 
-        {/* Social Links */}
         <div>
-          <h3 className="text-lg font-semibold mb-3">Follow Us</h3>
-          <div className="flex gap-4">
+          <h3 className="text-xs uppercase tracking-[0.2em] text-gold">
+            Follow Us
+          </h3>
+          <div className="mt-4 flex gap-3">
             <a
               href="https://facebook.com"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-gray-300"
+              className="flex h-10 w-10 items-center justify-center border border-primary-foreground/20 hover:border-gold hover:text-gold"
+              aria-label="Facebook"
             >
-              <Facebook size={24} />
+              <Facebook size={18} />
             </a>
             <a
               href="https://instagram.com"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-gray-300"
+              className="flex h-10 w-10 items-center justify-center border border-primary-foreground/20 hover:border-gold hover:text-gold"
+              aria-label="Instagram"
             >
-              <Instagram size={24} />
+              <Instagram size={18} />
             </a>
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="text-center text-gray-400 mt-8 border-t border-gray-700 pt-4 text-sm">
+      <div className="border-t border-primary-foreground/10 py-5 text-center text-xs tracking-wide text-primary-foreground/55">
         © {new Date().getFullYear()} Mian Cloth House. All rights reserved.
       </div>
     </footer>

@@ -1,33 +1,43 @@
-"use client";
-import React, { useState } from "react";
 import Image from "next/image";
-import CaurosalComponent from "./CaurosalComponent";
 
-const Product_image = ({ images }: { images: string[] }) => {
-  const [currentImage, setCurrentImage] = useState(images[0] || "");
+const Product_image = ({
+  images,
+  alt = "Product thumbnail",
+}: {
+  images: string[];
+  alt?: string;
+}) => {
+  const primary = images[0] || "";
+  const secondary = images[1];
 
-  if (!currentImage) {
+  if (!primary) {
     return (
-      <div className="w-full h-72 bg-gray-200 flex items-center justify-center">
-    
-      
+      <div className="flex aspect-[3/4] w-full items-center justify-center bg-secondary text-sm text-muted-foreground">
+        Image coming soon
       </div>
     );
   }
 
   return (
-    <div
-      className="w-full h-72 md:h-96 overflow-hidden "
-      onMouseEnter={() => setCurrentImage(images[1] || images[0])}
-      onMouseLeave={() => setCurrentImage(images[0])}
-    >
+    <div className="relative aspect-[3/4] w-full overflow-hidden bg-secondary">
       <Image
-        src={currentImage}
-        alt="Product Thumbnail"
-        width={400}
-        height={400}
-        className="object-contain w-full h-full transition duration-300"
+        src={primary}
+        alt={alt}
+        fill
+        className={`object-cover transition duration-500 ${
+          secondary ? "group-hover:opacity-0" : ""
+        }`}
+        sizes="(max-width: 768px) 100vw, 33vw"
       />
+      {secondary && (
+        <Image
+          src={secondary}
+          alt=""
+          fill
+          className="object-cover opacity-0 transition duration-500 group-hover:opacity-100"
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
+      )}
     </div>
   );
 };

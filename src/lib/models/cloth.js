@@ -7,6 +7,13 @@ const ClothSchema = new mongoose.Schema(
       required: [true, 'Title is required'],
       trim: true,
     },
+    slug: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
+      lowercase: true,
+    },
     description: {
       type: String,
       default: 'Elegant design with premium fabric. Perfect for casual and party wear.',
@@ -45,6 +52,11 @@ const ClothSchema = new mongoose.Schema(
       type: String,
       enum: ['men', 'women'],
       required: [true, 'Category is required'],
+    },
+    season: {
+      type: String,
+      enum: ['summer', 'winter', 'mix', 'all'],
+      default: 'all',
     },
     colors: {
       type: [String], // Array of colors like ["Red", "Blue"]

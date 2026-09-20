@@ -14,33 +14,32 @@ type Props = {
 };
 
 const CaurosalComponent = ({ images }: Props) => {
-  const fallbackImage = "/product-placeholder.png"; // Fallback image agar koi image na mile
+  const fallbackImage = "/product-1.png";
 
   return (
     <div className="w-full">
-      <Carousel className="w-full max-w-xl mx-auto mt-3 rounded-xl shadow-xl overflow-hidden bg-white">
+      <Carousel className="mx-auto w-full overflow-hidden bg-card shadow-sm">
         <CarouselContent>
           {(images && images.length > 0 ? images : [fallbackImage]).map(
             (img, index) => (
-              <CarouselItem key={index} className="relative w-full">
+              <CarouselItem key={index} className="relative aspect-[4/5] w-full">
                 <Image
                   src={img}
                   alt={`Product image ${index + 1}`}
-                  height={500}
-                  width={500}
-                  className="object-cover w-full h-auto"
-                  priority={index === 0} // Pehli image ko priority
+                  fill
+                  className="object-cover"
+                  priority={index === 0}
+                  sizes="(max-width: 768px) 100vw, 55vw"
                 />
               </CarouselItem>
             )
           )}
         </CarouselContent>
 
-        {/* Navigation Arrows */}
         {images.length > 1 && (
           <>
-            <CarouselPrevious className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white text-gray-700 hover:bg-gray-200 p-3 rounded-full shadow-lg z-10" />
-            <CarouselNext className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white text-gray-700 hover:bg-gray-200 p-3 rounded-full shadow-lg z-10" />
+            <CarouselPrevious className="absolute top-1/2 left-2 z-10 h-8 w-8 -translate-y-1/2 border-border bg-card/90 sm:left-3 sm:h-10 sm:w-10" />
+            <CarouselNext className="absolute top-1/2 right-2 z-10 h-8 w-8 -translate-y-1/2 border-border bg-card/90 sm:right-3 sm:h-10 sm:w-10" />
           </>
         )}
       </Carousel>

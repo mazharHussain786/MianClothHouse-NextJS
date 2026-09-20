@@ -4,6 +4,7 @@
 //     const cloth = await clothModel.findById(params.id);
 
 import cloudinary from "@/lib/cloudinary";
+import { revalidateCatalog } from "@/lib/revalidateCatalog";
 import { clothModel } from "@/lib/models/cloth";
 import dbConnect from "@/lib/mongodb";
 import mongoose from "mongoose";
@@ -49,6 +50,7 @@ export async function DELETE(
     }
     await clothModel.findOneAndDelete({ _id: productId }).session(session);
     (await session).commitTransaction();
+    revalidateCatalog();
     return NextResponse.json({ message: "Cloth deleted" });
   } catch (error) {
     (await session).abortTransaction();

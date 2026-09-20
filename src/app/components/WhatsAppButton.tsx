@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { FaWhatsapp } from "react-icons/fa";
 
 const WhatsAppButton = ({ title }: { title: string }) => {
   const [productUrl, setProductUrl] = useState("");
@@ -11,12 +12,13 @@ const WhatsAppButton = ({ title }: { title: string }) => {
   return (
     <a
       href={`https://wa.me/923027726309?text=${encodeURIComponent(
-        `Asslam-o-Alaikum I am interested in ${title}. Is it available?\n\nProduct Link: ${productUrl}`
+        `Assalam-o-Alaikum, I am interested in ${title}. Is it available?\n\nProduct Link: ${productUrl}`
       )}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="block flex gap-4 mt-9 bg-red-700 text-white px-5 py-3 rounded-lg hover:bg-red-800 font-semibold w-full justify-center"
+      className="flex w-full items-center justify-center gap-2 border border-[#1f6b4a] bg-[#1f6b4a] px-5 py-3 text-sm font-medium uppercase tracking-[0.12em] text-white transition hover:bg-[#18553b]"
     >
+      <FaWhatsapp size={18} />
       Order on WhatsApp
     </a>
   );

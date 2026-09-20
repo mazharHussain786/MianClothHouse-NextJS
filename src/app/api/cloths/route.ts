@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
 import dbConnect from "../../../lib/mongodb";
 import { clothModel } from "../../../lib/models/cloth";
+import { uniqueSlug } from "@/lib/slug";
+import { authOptions } from "@/lib/auth";
+import cloudinary from "@/lib/cloudinary";
+import { revalidateCatalog } from "@/lib/revalidateCatalog";
 
 export async function GET(req: Request) {
   try {
@@ -35,11 +40,6 @@ export async function GET(req: Request) {
   }
 }
 
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-
-import cloudinary from "@/lib/cloudinary";
-
 export const config = {
   api: {
     bodyParser: false,
@@ -48,7 +48,6 @@ export const config = {
 
 export async function POST(req: NextRequest) {
   try {
-    //@ts-ignore
     const session = await getServerSession(authOptions);
 
     if (!session || session.user.role !== "admin") {
@@ -104,6 +103,7 @@ export async function POST(req: NextRequest) {
 
     const newCloth = await clothModel.create({
       ...fields,
+      slug: await uniqueSlug(fields.title),
       images: uploadedImages,
       price: Number(fields.price),
       discountPrice: fields.discountPrice
@@ -111,7 +111,10 @@ export async function POST(req: NextRequest) {
         : undefined,
       colors: fields.colors || [],
       featured: fields.featured === "true",
+      season: fields.season || "all",
     });
+
+    revalidateCatalog();
 
     return NextResponse.json(
       { message: "Cloth added successfully", cloth: newCloth },

@@ -2,93 +2,82 @@
 import Image from "next/image";
 import Link from "next/link";
 
+const values = [
+  {
+    title: "Quality",
+    text: "Every fabric is chosen for feel, durability, and how it sits on the body.",
+  },
+  {
+    title: "Fair Prices",
+    text: "Premium fashion without the luxury markup. Style should be reachable.",
+  },
+  {
+    title: "Customer First",
+    text: "We build relationships, not just sales — in store and on WhatsApp.",
+  },
+];
+
 export default function AboutUs() {
   return (
-    <div className="bg-gray-50 min-h-screen py-10 px-6 md:px-20">
-      <div className="max-w-5xl mx-auto text-center">
-        <h1 className="text-4xl font-extrabold text-red-800 mb-4">
-          About <span className="text-gray-900">Mian Cloth House</span>
+    <div className="px-4 py-12 sm:px-6 md:px-12 md:py-16">
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="text-xs uppercase tracking-[0.28em] text-gold">Our Story</p>
+        <h1 className="font-display mt-3 text-4xl text-primary sm:text-5xl md:text-6xl">
+          About Mian Cloth House
         </h1>
-        <p className="text-lg text-gray-700 mb-8">
-          Welcome to <strong>Mian Cloth House</strong>, where tradition meets
-          modern fashion. Since our inception, we’ve been dedicated to bringing
-          premium fabrics, unique designs, and affordable luxury to our
-          customers.
+        <div className="gold-rule mx-auto mt-5" />
+        <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+          Where tradition meets modern fashion. We bring premium fabrics, considered
+          designs, and honest pricing to Mailsi and beyond.
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-10 items-center">
-        {/* Left Section */}
+      <div className="mx-auto mt-16 grid max-w-6xl items-center gap-12 md:grid-cols-2">
         <div>
-          <h2 className="text-2xl font-semibold text-red-700 mb-4">
-            Our Story
-          </h2>
-          <p className="text-gray-700 leading-relaxed mb-4">
-            Established with a passion for quality and style, Mian Cloth House
-            has become a trusted name for clothing enthusiasts. We offer a wide
-            range of fabrics that combine elegance with
-            comfort.
+          <h2 className="font-display text-3xl text-primary">A trusted local name</h2>
+          <p className="mt-4 leading-relaxed text-foreground/80">
+            Established with a passion for quality and style, Mian Cloth House is
+            known for fabrics that combine elegance with comfort — from everyday
+            essentials to festive wear.
           </p>
-          <p className="text-gray-700 leading-relaxed">
-            Our mission is simple <strong>to make every customer feel special</strong>  with
-            our handpicked collections. From everyday essentials to festive
-            wear, we have something for everyone.
+          <p className="mt-4 leading-relaxed text-foreground/80">
+            Our mission is simple: make every customer feel looked after, whether
+            they visit the shop in Kot Muzaffar or order on WhatsApp.
           </p>
         </div>
-
-        {/* Right Section */}
-        <div className="relative w-full h-80">
+        <div className="relative h-80 w-full overflow-hidden md:h-[420px]">
           <Image
-            src="/about.jpg" // add an image in public folder named about.jpg
-            alt="Mian Cloth House"
+            src="/about.jpg"
+            alt="Mian Cloth House store"
             fill
-            className="rounded-xl object-cover shadow-lg"
+            className="object-cover"
           />
         </div>
       </div>
 
-      {/* Vision & Values */}
-      <div className="mt-16 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Values</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-red-700 mb-2">Quality</h3>
-            <p className="text-gray-600">
-              Every product is crafted with the finest materials to ensure
-              durability and elegance.
-            </p>
-          </div>
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-red-700 mb-2">
-              Affordability
-            </h3>
-            <p className="text-gray-600">
-              Premium fashion at prices you’ll love – because style shouldn’t be
-              expensive.
-            </p>
-          </div>
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-red-700 mb-2">
-              Customer First
-            </h3>
-            <p className="text-gray-600">
-              We believe in building relationships, not just making sales.
-            </p>
-          </div>
+      <div className="mx-auto mt-20 max-w-6xl">
+        <h2 className="font-display text-center text-3xl text-primary sm:text-4xl">Our Values</h2>
+        <div className="gold-rule mx-auto mt-4" />
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {values.map((value) => (
+            <div key={value.title} className="bg-card p-8 shadow-sm">
+              <h3 className="font-display text-2xl text-primary">{value.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {value.text}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* CTA Section */}
-      <div className="text-center mt-16">
-        <h2 className="text-2xl font-bold mb-4">
-          Visit Our Store or Shop Online!
-        </h2>
-        <p className="text-gray-700 mb-6">
-          Experience the best in fashion with Mian Cloth House.
+      <div className="mx-auto mt-20 max-w-3xl bg-primary px-8 py-14 text-center text-primary-foreground">
+        <h2 className="font-display text-4xl">Visit the store or shop online</h2>
+        <p className="mt-3 text-primary-foreground/75">
+          Experience the collection at Mian Cloth House.
         </p>
         <Link
-          href="/"
-          className="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md transition"
+          href="/#products"
+          className="mt-8 inline-block bg-card px-8 py-3 text-sm uppercase tracking-[0.16em] text-primary"
         >
           Start Shopping
         </Link>

@@ -25,7 +25,11 @@ const ProtectedRoute = ({
   }, [status, session]);
 
   if (status === "loading") {
-    return <p className="text-center mt-10">Checking authentication...</p>;
+    return (
+      <p className="py-20 text-center text-sm tracking-wide text-muted-foreground">
+        Checking authentication...
+      </p>
+    );
   }
 
   return <>{session && userRole === role && children}</>;
